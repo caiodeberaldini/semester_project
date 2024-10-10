@@ -17,5 +17,18 @@
 ],
 "action":{
 "default_popup": "popup.html"
-}
+},
+"content_scripts":[
+    {
+        "matches": ["https://github.com/*"],
+        "css": ["content.css"],
+        "js": ["content.js"]
+    }
+],
+"web_accessible_resources": [
+    {
+      "resources": ["template.html"],
+      "matches": ["https://github.com/*"]
+    }
+  ]
 }
