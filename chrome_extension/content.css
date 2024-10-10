@@ -1,0 +1,68 @@
+.chat-popup {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+}
+
+.content-form-container {
+    max-width: 300px;
+    padding: 10px;
+    background-color: white;
+  }
+
+/* Full-width textarea */
+.content-form-container textarea {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    border: none;
+    background: #f1f1f1;
+    resize: none;
+    min-height: 200px;
+}
+
+/* When the textarea gets focus, do something */
+.content-form-container textarea:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+/* Set a style for the submit/send button */
+.content-form-container .btn {
+    background-color: #04AA6D;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom:10px;
+    opacity: 0.8;
+}
+  
+/* Add a red background color to the cancel button */
+.content-form-container .cancel {
+    background-color: red;
+}
+  
+
+.chat-button{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    /* z-index: 1000; */
+    padding: 10px 20px;
+    background-color: #6200EE;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    opacity: 0.8;
+}
+
+.chat-button:hover{
+    opacity: 1;
+}
