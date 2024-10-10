@@ -16,10 +16,14 @@ fetch(chrome.runtime.getURL('template.html'))
         const cancelBtn = document.getElementById("cancelBtn");
 
         chatPopup.addEventListener('click', () =>{
+            chrome.runtime.sendMessage({message: "extract"}, (response) => {
+                const apiURL = "http://localhost:5000/repo_structure?url=" + response.url;
+                fetch(apiURL);
+            });
             openForm();
         });
         
-        cancelBtn.addEventListener('click', () => {
+        cancelBtn.addEventListener('click', async () => {
             closeForm();
         });        
 });

@@ -10,7 +10,8 @@
     "storage",
     "scripting",
     "webNavigation",
-    "activeTab"
+    "activeTab",
+    "tabs"
 ],
 "host_permissions":[
     "*://*/*"
