@@ -1,6 +1,6 @@
 {
-"name": "Getting Started Example",
-"description": "Build an Extension!",
+"name": "Koby",
+"description": "Koby: An AI Codebase Assistant!",
 "version": "1.0",
 "manifest_version": 3,
 "background":{
@@ -22,14 +22,22 @@
 "content_scripts":[
     {
         "matches": ["https://github.com/*"],
-        "css": ["content.css"],
+        "css": [
+            "style.css"
+        ],
         "js": ["content.js"]
     }
 ],
 "web_accessible_resources": [
     {
-      "resources": ["template.html"],
+      "resources": [
+        "template.html", 
+        "assets/css/boxicons.min.css",
+        "assets/fonts/boxicons.woff2",
+        "assets/fonts/boxicons.ttf",
+        "assets/fonts/boxicons.woff"
+    ],
       "matches": ["https://github.com/*"]
     }
-  ]
+]
 }
