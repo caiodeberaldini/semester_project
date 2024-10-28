@@ -40,10 +40,10 @@ fetch(chrome.runtime.getURL('template.html'))
         const chatboxMessage = document.querySelector('.chatbox-message-wrapper');
 
         chatboxToggle.addEventListener('click', function () {
-            // chrome.runtime.sendMessage({message: "extract"}, (response) => {
-            //     const apiURL = "http://localhost:5000/repo_structure?url=" + response.url;
-            //     fetch(apiURL);
-            // });
+            chrome.runtime.sendMessage({message: "extract"}, (response) => {
+                const apiURL = "http://localhost:5000/repo-struct?url=" + response.url;
+                fetch(apiURL);
+            });
             chatboxMessage.classList.toggle('show');
         })
 
@@ -70,22 +70,38 @@ fetch(chrome.runtime.getURL('template.html'))
             e.preventDefault();
 
             if(isValid(textarea.value)) {
-                writeMessage();
-                setTimeout(autoReply, 1000);
-            }
-        })
+                var content = textarea.value;
 
+                writeMessage();
+
+                sendMessage(content)
+                    .then(response => response.json())
+                    .then(data => {
+                        setTimeout(
+                            replyMessage(data.message),
+                            1000
+                        );
+                    });
+            }
+        });
+
+
+        function sendMessage(content){
+            const apiURL = "http://localhost:5000/send-message";
+
+            var message = {};
+            message.role = "user";
+            message.content = content;
+
+            return fetch(apiURL, {
+                headers: {'Content-Type': 'application/json'},
+                method: 'POST',
+                body: JSON.stringify(message)
+            });
+        };
 
         function writeMessage() {
             const today = new Date()
-            // let message = `
-            //     <div class="chatbox-message-item sent">
-            //         <span class="chatbox-message-item-text">
-            //             ${textarea.value.trim().replace(/\n/g, '<br>\n')}
-            //         </span>
-            //         <span class="chatbox-message-item-time">${addZero(today.getHours())}:${addZero(today.getMinutes())}</span>
-            //     </div>
-            // `
             let message = `
                 <div class="chatbox-message-item sent">
                     <span class="chatbox-message-item-text">
@@ -101,18 +117,24 @@ fetch(chrome.runtime.getURL('template.html'))
             textarea.value = '';
             chatboxNoMessage.style.display = 'none';
             scrollBottom();
-        }
+        };
         
+        function replyMessage(msg_content) {
+            const today = new Date()
+            let message = `
+                <div class="chatbox-message-item received">
+                    <span class="chatbox-message-item-text">
+                        ${msg_content.trim().replace(/\n/g, '<br>\n')}
+                    </span>
+                    <span class="chatbox-message-item-time"></span>
+                </div>
+            `;
+            chatboxMessageWrapper.insertAdjacentHTML('beforeend', message);
+            scrollBottom();
+        };
+
         function autoReply() {
             const today = new Date()
-            // let message = `
-            //     <div class="chatbox-message-item received">
-            //         <span class="chatbox-message-item-text">
-            //             Thank you for your awesome support!
-            //         </span>
-            //         <span class="chatbox-message-item-time">${addZero(today.getHours())}:${addZero(today.getMinutes())}</span>
-            //     </div>
-            // `
             let message = `
                 <div class="chatbox-message-item received">
                     <span class="chatbox-message-item-text">
@@ -123,22 +145,22 @@ fetch(chrome.runtime.getURL('template.html'))
             `;
             chatboxMessageWrapper.insertAdjacentHTML('beforeend', message);
             scrollBottom();
-        }
+        };
         
         function scrollBottom() {
             chatboxMessageWrapper.scrollTo(0, chatboxMessageWrapper.scrollHeight);
-        }
+        };
         
 });
 
 
 function addZero(num) {
 	return num < 10 ? '0'+num : num
-}
+};
 
 function isValid(value) {
 	let text = value.replace(/\n/g, '');
 	text = text.replace(/\s/g, '');
 
 	return text.length > 0
-}
+};
