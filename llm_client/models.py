@@ -3,12 +3,15 @@ import sys
 
 from anthropic import Anthropic
 
+from dataclasses import dataclass
+
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
 
 class LLMClient:
-    def __init__(self, name, api_key=ANTHROPIC_API_KEY):
-        self.model_name = name
+    def __init__(self, model_name, api_key=ANTHROPIC_API_KEY):
+        self.model_name = model_name
         self.client = Anthropic(api_key=api_key)
+        self.chat = []
 
     def __call__(self, prompt):
         message = self.client.messages.create(
@@ -23,23 +26,56 @@ class LLMClient:
 
 
     def _build_input(self, chat):
-        return chat
+        in_messages = []
+        system_prompt = ""
 
-    def stream(self, 
+        for m in chat:
+            if m.role == "system":
+                system_prompt = m.message
+            else:
+                role = m.role
+                content = []
+
+                if m.message:
+                    content.append({
+                        "type": "text", 
+                        "text": m.message
+                    })
+                in_messages.append({
+                    "role": role,
+                    "content": content
+                })
+
+        return in_messages, system_prompt
+
+    def stream(
+        self, 
         max_tokens, 
         temperature, 
-        system, 
         timeout, 
-        chat
+        text
     ):
-        in_messages = chat
+        self.chat.append(MessageWrapper(role="user", message=text))
+        in_messages, sys_prompt = self._build_input(self.chat)
         with self.client.with_options(timeout=timeout).messages.stream(
             model=self.model_name,
             max_tokens=max_tokens,
-            system=system,
+            system=sys_prompt,
             messages=in_messages,
             temperature=temperature,
             timeout=timeout,
         ) as stream:
             for text in stream.text_stream:
+                self.chat.append(
+                    MessageWrapper(
+                        role="assistant",
+                        message=text
+                    )
+                )
                 yield text
+
+
+@dataclass
+class MessageWrapper:
+    role: str
+    message: str
