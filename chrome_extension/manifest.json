@@ -16,6 +16,9 @@
 "host_permissions":[
     "*://*/*"
 ],
+"icons":{
+    "128": "images/koby_logo_1-128.png"
+},
 "content_scripts":[
     {
         "matches": ["https://github.com/*"],
@@ -32,7 +35,8 @@
         "assets/css/boxicons.min.css",
         "assets/fonts/boxicons.woff2",
         "assets/fonts/boxicons.ttf",
-        "assets/fonts/boxicons.woff"
+        "assets/fonts/boxicons.woff",
+        "images/*"
     ],
       "matches": ["https://github.com/*"]
     }

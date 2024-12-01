@@ -39,6 +39,7 @@ fetch(chrome.runtime.getURL('template.html'))
         const chatboxToggle = document.querySelector('.chatbox-toggle');
         const chatboxMessage = document.querySelector('.chatbox-message-wrapper');
 
+        chatboxToggle.style.backgroundImage = `url(${chrome.runtime.getURL('images/koby_logo_1-128.png')})`;
         chatboxToggle.addEventListener('click', function () {
             chrome.runtime.sendMessage({message: "extract"}, (response) => {
                 const apiURL = "http://localhost:5000/repo-struct?url=" + response.url;
