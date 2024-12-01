@@ -16,9 +16,6 @@
 "host_permissions":[
     "*://*/*"
 ],
-"action":{
-"default_popup": "popup.html"
-},
 "content_scripts":[
     {
         "matches": ["https://github.com/*"],

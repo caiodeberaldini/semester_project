@@ -8,10 +8,13 @@ from dataclasses import dataclass
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
 
 class LLMClient:
-    def __init__(self, model_name, api_key=ANTHROPIC_API_KEY):
+    def __init__(self, model_name, system=None, api_key=ANTHROPIC_API_KEY):
         self.model_name = model_name
         self.client = Anthropic(api_key=api_key)
         self.chat = []
+
+        if system:
+            self.chat.append(MessageWrapper(role="system", message=system))
 
     def __call__(self, prompt):
         message = self.client.messages.create(

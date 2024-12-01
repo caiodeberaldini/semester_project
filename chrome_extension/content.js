@@ -17,7 +17,7 @@ fetch(chrome.runtime.getURL('template.html'))
         link.href = chrome.runtime.getURL('assets/css/boxicons.min.css');
         document.head.appendChild(link);
 
-        // MESSAGE INPUT
+        // Message Input
         const textarea = document.querySelector('.chatbox-message-input');
         const chatboxForm = document.querySelector('.chatbox-message-form');
 
@@ -35,7 +35,7 @@ fetch(chrome.runtime.getURL('template.html'))
             }
         })
 
-        // TOGGLE CHATBOX
+        // Toggle Chatbox
         const chatboxToggle = document.querySelector('.chatbox-toggle');
         const chatboxMessage = document.querySelector('.chatbox-message-wrapper');
 
@@ -47,7 +47,7 @@ fetch(chrome.runtime.getURL('template.html'))
             chatboxMessage.classList.toggle('show');
         })
 
-        // DROPDOWN TOGGLE
+        // Dropdown Toggle
         const dropdownToggle = document.querySelector('.chatbox-message-dropdown-toggle');
         const dropdownMenu = document.querySelector('.chatbox-message-dropdown-menu');
 
@@ -62,7 +62,7 @@ fetch(chrome.runtime.getURL('template.html'))
         })
 
 
-        // CHATBOX MESSAGE
+        // Chatbox Message
         const chatboxMessageWrapper = document.querySelector('.chatbox-message-content');
         const chatboxNoMessage = document.querySelector('.chatbox-message-no-message');
 
@@ -153,10 +153,6 @@ fetch(chrome.runtime.getURL('template.html'))
         
 });
 
-
-function addZero(num) {
-	return num < 10 ? '0'+num : num
-};
 
 function isValid(value) {
 	let text = value.replace(/\n/g, '');
